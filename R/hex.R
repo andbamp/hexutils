@@ -1,12 +1,11 @@
-hextoi <- function(x) {
-  if(is.numeric(x)) {
-    x <- ifelse(x %% 1 == 0, x, NA)
-    return(x)
-  }
-  x <- ifelse(is.character(x) & !grepl("^0x", x), paste0("0x", x), x)
-  strtoi(x, 16L)
-}
-
+#' Binary file reader
+#' 
+#' This function provides convenience methods for reading and parsing binary 
+#' data.
+#' 
+#' @param path File path.
+#' @return Interface to methods as list.
+#' @export
 hex_reader <- function(path) {
   env <- environment()
   
