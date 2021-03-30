@@ -62,7 +62,7 @@ hex_reader <- function(path) {
   }
   
   list(
-    offset, function() offset,
+    offset = function() offset,
     set_offset = set_offset,
     reset = reset,
     read_block = read_block,
