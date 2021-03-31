@@ -33,7 +33,7 @@ hex_reader <- function(path, offset = 0) {
     con <- file(path, "rb")
     on.exit(close(con))
     seek(con, hextoi(start))
-    size <- hextoi(end) - hextoi(start)
+    size <- hextoi(end) - hextoi(start) + 1
     readBin(con, what = "raw", n = size)
   }
   
