@@ -2,3 +2,7 @@
 
 export(hex_reader)
 export(hextoi)
+export(parse_hex_between)
+export(parse_hex_block)
+export(read_hex_between)
+export(read_hex_block)

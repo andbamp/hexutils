@@ -7,10 +7,10 @@
 hextoi(x)
 }
 \arguments{
-\item{x}{A character vector of hexadecimal strings (prefix `0x` optional).}
+\item{x}{Character vector of hexadecimal strings (prefix `0x` optional).}
 }
 \value{
-A numeric vector of corresponding decimal integers.
+Numeric vector of corresponding decimal integers.
 }
 \description{
 Utility function for converting hexadecimal string either with prefix `0x` 

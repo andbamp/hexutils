@@ -4,8 +4,8 @@
 #' (eg. `0x5b`) or without (eg. `5b`) into integers. If integers are given as
 #' input, they are returned.
 #' 
-#' @param x A character vector of hexadecimal strings (prefix `0x` optional).
-#' @return A numeric vector of corresponding decimal integers.
+#' @param x Character vector of hexadecimal strings (prefix `0x` optional).
+#' @return Numeric vector of corresponding decimal integers.
 #' @export
 hextoi <- function(x) {
   if(is.numeric(x)) {
