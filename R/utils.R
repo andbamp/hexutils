@@ -15,3 +15,28 @@ hextoi <- function(x) {
   x <- ifelse(is.character(x) & !grepl("^0x", x), paste0("0x", x), x)
   strtoi(x, 16L)
 }
+
+#' Split the elements of a raw vector
+#' 
+#' Split the elements of a raw vector into chunks according to the matches
+#' to byte sequence `split` within them.
+#' 
+#' @param block Vector of type `raw`.
+#' @param split Sequence of bytes represented as a character string, eg.
+#'   `"\\x50"` or `"\\x50\\x51"`.
+#' @return A list of the same length as the number of splits of the byte
+#'   sequence.
+#' @export
+hexsplit <- function(block, split) {
+  split <- charToRaw(split)
+  end <- seq_along(block)
+  for(i in seq_along(split)) {
+    end <- end[block[end + i - 1L] == split[i]]
+  }
+  end <- c(end + length(split) - 1, length(block))
+  end <- unique(end)
+  begin <- c(1, end[1:length(end) - 1] + 1)
+  lapply(seq(begin), function(i) {
+    block[begin[i]:end[i]]
+  })
+}

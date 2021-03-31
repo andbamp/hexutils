@@ -37,27 +37,14 @@ hex_reader <- function(path, offset = 0) {
     readBin(con, what = "raw", n = size)
   }
   
-  parse <- function(block, split) {
-    split <- charToRaw(split)
-    end <- seq_along(block)
-    for(i in seq_along(split)) {
-      end <- end[block[end + i - 1L] == split[i]]
-    }
-    end <- c(end + length(split) - 1, length(block))
-    begin <- c(1, end[1:length(end) - 1] + 1)
-    lapply(seq(begin), function(i) {
-      block[begin[i]:end[i]]
-    })
-  }
-  
   parse_block <- function(size = 16, split) {
     block <- read_block(size)
-    parse(block, split)
+    hexsplit(block, split)
   }
   
   parse_between <- function(start, end, split) {
     block <- read_between(start, end)
-    parse(block, split)
+    hexsplit(block, split)
   }
   
   list(
