@@ -4,15 +4,15 @@
 \alias{read_hex_block}
 \title{Read a block of data of specified size}
 \usage{
-read_hex_block(path, offset, size = 16)
+read_hex_block(path, size = 16, offset)
 }
 \arguments{
 \item{path}{File path.}
 
+\item{size}{Number of bytes.}
+
 \item{offset}{Integer or character string representing a hexadecimal number
 to set the initial position of binary file connection.}
-
-\item{size}{Number of bytes.}
 }
 \value{
 Vector of type `raw`.

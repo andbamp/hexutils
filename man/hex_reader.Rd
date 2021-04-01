@@ -4,10 +4,12 @@
 \alias{hex_reader}
 \title{Binary file reader}
 \usage{
-hex_reader(path, offset = 0)
+hex_reader(path, size = 16, offset = 0)
 }
 \arguments{
 \item{path}{File path.}
+
+\item{size}{Number of bytes.}
 
 \item{offset}{Integer or character string representing a hexadecimal number
 to set the initial position of binary file connection.}

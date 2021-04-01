@@ -4,15 +4,15 @@
 \alias{parse_hex_block}
 \title{Parse a block of data of specified size}
 \usage{
-parse_hex_block(path, offset, size = 16, split)
+parse_hex_block(path, size = 16, offset, split)
 }
 \arguments{
 \item{path}{File path.}
 
+\item{size}{Number of bytes.}
+
 \item{offset}{Integer or character string representing a hexadecimal number
 to set the initial position of binary file connection.}
-
-\item{size}{Number of bytes.}
 
 \item{split}{Sequence of bytes represented as a character string, eg.
 `"\\x50"` or `"\\x50\\x51"`.}

@@ -4,28 +4,35 @@
 #' data.
 #' 
 #' @param path File path.
+#' @param size Number of bytes.
 #' @param offset Integer or character string representing a hexadecimal number
 #'   to set the initial position of binary file connection.
 #' @return Interface to methods as list.
 #' @export
-hex_reader <- function(path, offset = 0) {
+hex_reader <- function(path, size = 16, offset = 0) {
   env <- environment()
   
-  offset <- hextoi(offset)
-  
-  reset <- function() {
-    assign("offset", 0, envir = env)
+  block_size <- size
+  size <- function(x = NULL) {
+    if(is.null(x)) {
+      return(block_size)
+    }
+    assign("block_size", x, envir = env)
   }
   
-  set_offset <- function(x) {
-    assign("offset", hextoi(x), envir = env)
+  con_offset <- hextoi(offset)
+  offset <- function(x = NULL) {
+    if(is.null(x)) {
+      return(con_offset)
+    }
+    assign("con_offset", hextoi(x), envir = env)
   }
   
-  read_block <- function(size = 16) {
+  read_block <- function(size = block_size, offset = con_offset) {
     con <- file(path, "rb")
     on.exit(close(con))
-    seek(con, offset)
-    assign("offset", offset + size, envir = env)
+    seek(con, hextoi(offset))
+    assign("con_offset", hextoi(offset) + size, envir = env)
     readBin(con, what = "raw", n = size)
   }
   
@@ -34,10 +41,11 @@ hex_reader <- function(path, offset = 0) {
     on.exit(close(con))
     seek(con, hextoi(start))
     size <- hextoi(end) - hextoi(start) + 1
+    assign("con_offset", hextoi(end), envir = env)
     readBin(con, what = "raw", n = size)
   }
   
-  parse_block <- function(size = 16, split) {
+  parse_block <- function(size = block_size, offset = con_offset, split) {
     block <- read_block(size)
     hexsplit(block, split)
   }
@@ -48,9 +56,8 @@ hex_reader <- function(path, offset = 0) {
   }
   
   list(
-    offset = function() offset,
-    set_offset = set_offset,
-    reset = reset,
+    size = size,
+    offset = offset,
     read_block = read_block,
     read_between = read_between,
     parse_block = parse_block,
@@ -63,14 +70,14 @@ hex_reader <- function(path, offset = 0) {
 #' Read a block of binary data of a specified size starting at a given offset.
 #' 
 #' @param path File path.
+#' @param size Number of bytes.
 #' @param offset Integer or character string representing a hexadecimal number
 #'   to set the initial position of binary file connection.
-#' @param size Number of bytes.
 #' @return Vector of type `raw`.
 #' @export
-read_hex_block <- function(path, offset, size = 16) {
-  reader <- hex_reader(path, offset)
-  reader$read_block(size)
+read_hex_block <- function(path, size = 16, offset) {
+  reader <- hex_reader(path)
+  reader$read_block(size, offset)
 }
 
 #' Read a block of data between addresses
@@ -96,17 +103,17 @@ read_hex_between <- function(path, start, end) {
 #' within them.
 #' 
 #' @param path File path.
+#' @param size Number of bytes.
 #' @param offset Integer or character string representing a hexadecimal number
 #'   to set the initial position of binary file connection.
-#' @param size Number of bytes.
 #' @param split Sequence of bytes represented as a character string, eg.
 #'   `"\\x50"` or `"\\x50\\x51"`.
 #' @return A list of the same length as the number of splits of the byte
 #'   sequence.
 #' @export
-parse_hex_block <- function(path, offset, size = 16, split) {
-  reader <- hex_reader(path, offset)
-  reader$parse_block(size, split)
+parse_hex_block <- function(path, size = 16, offset, split) {
+  reader <- hex_reader(path)
+  reader$parse_block(size, offset, split)
 }
 
 #' Parse a block of data between addresses
