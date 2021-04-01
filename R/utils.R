@@ -40,3 +40,32 @@ hexsplit <- function(block, split) {
     block[begin[i]:end[i]]
   })
 }
+
+#' Decode binary data
+#' 
+#' Decode a block of binary data based on a specified character encoding.
+#' 
+#' @param block Vector of type `raw`.
+#' @param encoding `data.frame` or `list` of length 2. First item denotes byte,
+#'   second item denotes equivalent decoded character.
+#' @param nomatch Character on to which bytes not on the character map should
+#'   be decoded.
+#' @param collapse An optional character string to separate the results, as in
+#'   paste.
+#' @return A list of the same length as the number of splits of the byte
+#'   sequence.
+#' @export
+hexdecode <- function(block, encoding, nomatch = NA, collapse = NULL) {
+  names(encoding) <- c("hex", "char")
+  hex <- encoding[["hex"]]
+  if(class(hex) != "raw") {
+    hex <- as.raw(hextoi(hex))
+  }
+  char <- encoding[["char"]]
+  decoded <- char[match(block, hex)]
+  decoded[is.na(decoded)] <- nomatch
+  if(is.null(collapse)) {
+    return(decoded)
+  }
+  paste(decoded, collapse = collapse)
+}
