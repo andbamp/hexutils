@@ -20,28 +20,28 @@ hex_reader <- function(path, size = 16, offset = 0) {
     assign("block_size", x, envir = env)
   }
   
-  con_offset <- hextoi(offset)
+  con_offset <- as.hexmode(offset)
   offset <- function(x = NULL) {
     if(is.null(x)) {
       return(con_offset)
     }
-    assign("con_offset", hextoi(x), envir = env)
+    assign("con_offset", as.hexmode(x), envir = env)
   }
   
   read_block <- function(size = block_size, offset = con_offset) {
     con <- file(path, "rb")
     on.exit(close(con))
-    seek(con, hextoi(offset))
-    assign("con_offset", hextoi(offset) + size, envir = env)
+    seek(con, as.hexmode(offset))
+    assign("con_offset", as.hexmode(offset) + size, envir = env)
     readBin(con, what = "raw", n = size)
   }
   
   read_between <- function(start, end) {
     con <- file(path, "rb")
     on.exit(close(con))
-    seek(con, hextoi(start))
-    size <- hextoi(end) - hextoi(start) + 1
-    assign("con_offset", hextoi(end), envir = env)
+    seek(con, as.hexmode(start))
+    size <- as.hexmode(end) - as.hexmode(start) + 1
+    assign("con_offset", as.hexmode(end), envir = env)
     readBin(con, what = "raw", n = size)
   }
   

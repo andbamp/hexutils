@@ -1,19 +1,5 @@
 context("Helper functions")
 
-test_that("hexadecimal character strings are converted correctly", {
-  prefix_in <- c("0x1", "0x91", "0x7e5", "0xg", "0xx5b", "9x5b")
-  prefix_ex <- c(1, 145, 2021, NA, NA, NA)
-  expect_equal(hextoi(prefix_in), prefix_ex)
-  
-  nopre_in <- c("1", "91", "7e5", "g", "x5", "%")
-  nopre_ex <- c(1, 145, 2021, NA, NA, NA)
-  expect_equal(hextoi(nopre_in), nopre_ex)
-  
-  int_in <- c(1, 145, 2021, 3.14)
-  int_ex <- c(1, 145, 2021, NA)
-  expect_equal(hextoi(int_in), int_ex)
-})
-
 test_that("raw vectors are split correctly", {
   vec_raw <- sapply(c("\x01", "\xaa", "\xff", "\x02", "\x03"), charToRaw)
   vec_input <- unname(vec_raw[c(
@@ -48,11 +34,11 @@ test_that("a sequence of bytes is decoded correctly", {
     c("a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"),
     c("e", "h", "i", "l", "s", "t", "u", "x")
   )
-  encoding_int <- list(hextoi(encoding_char[[1]]), encoding_char[[2]])
-  encoding_raw <- list(as.raw(hextoi(encoding_char[[1]])), encoding_char[[2]])
+  encoding_int <- list(as.hexmode(encoding_char[[1]]), encoding_char[[2]])
+  encoding_raw <- list(as.raw(as.hexmode(encoding_char[[1]])), encoding_char[[2]])
   encoding_dat <- as.data.frame(encoding_char)
   
-  block <- as.raw(hextoi(
+  block <- as.raw(as.hexmode(
     c("a0", "a2", "a1", "a8", "a0", "a7", "a6", "a3", "a4", "a5", "bb")
   ))
   

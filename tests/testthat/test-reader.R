@@ -14,7 +14,7 @@ test_that("binary files can be read block by block", {
   exp_char2 <- "r sit amet, fames sed dapibus, t"
   expect_equal(read_char2, exp_char2)
   
-  read_off <- reader$offset()
+  read_off <- as.integer(reader$offset())
   exp_off <- 48
   expect_equal(read_off, exp_off)
   
