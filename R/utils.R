@@ -1,3 +1,14 @@
+#' Hexfind
+#'
+#' @export
+hexfind <- function(x, block) {
+  index <- seq_along(x)
+  for(i in seq_along(block)) {
+    index <- index[x[index + i - 1L] == block[i]]
+  }
+  index
+}
+
 #' Split the elements of a raw vector
 #' 
 #' Split the elements of a raw vector into chunks according to the matches
