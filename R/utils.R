@@ -41,7 +41,7 @@ hexdecode <- function(block, encoding, nomatch = NA, collapse = NULL) {
   names(encoding) <- c("hex", "char")
   hex <- encoding[["hex"]]
   if(class(hex) != "raw") {
-    hex <- as.raw(hextoi(hex))
+    hex <- as.raw(as.hexmode(hex))
   }
   char <- encoding[["char"]]
   decoded <- char[match(block, hex)]
