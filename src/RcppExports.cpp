@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // hexfind_cpp
-LogicalVector hexfind_cpp(RawVector x, RawVector block);
+IntegerVector hexfind_cpp(RawVector x, RawVector block);
 RcppExport SEXP _hexutils_hexfind_cpp(SEXP xSEXP, SEXP blockSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

@@ -5,22 +5,32 @@ using namespace Rcpp;
 //'
 //' @export
 // [[Rcpp::export]]
-LogicalVector hexfind_cpp(RawVector x, RawVector block) {
-  int xSize = x.size();
-  int bSize = block.size();
-  LogicalVector res(xSize);
-  LogicalVector match(bSize);
+IntegerVector hexfind_cpp(RawVector x, RawVector block) {
+  int x_size = x.size();
+  int block_size = block.size();
   
-  for (int i = 0; i < xSize; ++i) {
-    for (int j = 0; j < bSize; ++j) {
-      match[j] = x[i + j] == block[j];
+  int max_m = 100;
+  IntegerVector match_ind(max_m);
+  
+  bool match;
+  int m = 0;
+  int count = 0;
+  
+  for (int i = 0; i < x_size; ++i) {
+    count = 0;
+    for (int j = 0; j < block_size; ++j) {
+      match = x[i + j] == block[j];
+      if (!match) break;
+      count++;
     }
-    if (sum(match) == bSize) {
-      res[i] = 1;
-    } else {
-      res[i] = 0;
+    if (count == block_size) {
+      match_ind[m++] = i + 1;
+      if (m > max_m) {
+        stop("Error: Too many matches");
+        exit(1);
+      }
     }
   }
   
-  return res;
+  return match_ind[seq(0, m - 1)];
 }
