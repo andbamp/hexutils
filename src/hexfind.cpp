@@ -9,11 +9,9 @@ IntegerVector hexfind_cpp(RawVector x, RawVector block) {
   int x_size = x.size();
   int block_size = block.size();
   
-  int max_m = 100;
-  IntegerVector match_ind(max_m);
-  
-  bool match;
+  IntegerVector match_ind(x_size);
   int m = 0;
+  bool match;
   int count = 0;
   
   for (int i = 0; i < x_size; ++i) {
@@ -25,12 +23,9 @@ IntegerVector hexfind_cpp(RawVector x, RawVector block) {
     }
     if (count == block_size) {
       match_ind[m++] = i + 1;
-      if (m > max_m) {
-        stop("Error: Too many matches");
-        exit(1);
-      }
     }
   }
   
+  if (m == 0) return NULL;
   return match_ind[seq(0, m - 1)];
 }
