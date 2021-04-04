@@ -1,7 +1,7 @@
 context("Hexfind")
 
 test_that("indexes of binary sequences are located correctly", {
-  path <- "../data/test.bin"
+  path <- "data/test.bin"
   file <- read_hex_block(path, size = file.size(path), 0)
   
   block_1 <- sapply(c("L", "o", "r", "e", "m"), charToRaw)

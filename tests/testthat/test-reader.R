@@ -42,11 +42,11 @@ test_that("binary blocks are read succesfully", {
 test_that("blocks read from binary files are split succesfully", {
   path <- "data/test.bin"
   
-  split_hex1 <- parse_hex_block(path, size = 1024, split = "\x0a")
+  split_hex1 <- parse_hex_block(path, size = 1024, split = as.hexmode("0a"))
   exp_len1 <- 2
   expect_equal(length(split_hex1), exp_len1)
   
-  split_hex2 <- parse_hex_between(path, "0xA40", "0xAA0", split = "\x2e\x20")
+  split_hex2 <- parse_hex_between(path, "0xA40", "0xAA0", split = as.hexmode(c("2e", "20")))
   read_char2 <- rawToChar(split_hex2[[2]])
   exp_char2 <- "Ultricies non. "
   expect_equal(read_char2, exp_char2)

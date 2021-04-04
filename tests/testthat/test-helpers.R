@@ -12,21 +12,21 @@ test_that("raw vectors are split correctly", {
     unname(vec_raw[c("\x03", "\xff")]),
     unname(vec_raw[c("\xff")])
   )
-  expect_equal(hexsplit(vec_input, "\xff"), vec_exp1)
+  expect_equal(hexsplit(vec_input, as.hexmode("ff")), vec_exp1)
   
   vec_exp2 <- list(
     unname(vec_raw[c("\x01", "\xaa")]),
     unname(vec_raw[c("\xff", "\x02", "\xaa")]),
     unname(vec_raw[c("\xff", "\x03", "\xff", "\xff")])
   )
-  expect_equal(hexsplit(vec_input, "\xaa"), vec_exp2)
+  expect_equal(hexsplit(vec_input, as.hexmode("aa")), vec_exp2)
   
   vec_exp3 <- list(
     unname(vec_raw[c("\x01", "\xaa", "\xff")]),
     unname(vec_raw[c("\x02", "\xaa", "\xff")]),
     unname(vec_raw[c("\x03", "\xff", "\xff")])
   )
-  expect_equal(hexsplit(vec_input, "\xaa\xff"), vec_exp3)
+  expect_equal(hexsplit(vec_input, as.hexmode(c("aa", "ff"))), vec_exp3)
 })
 
 test_that("a sequence of bytes is decoded correctly", {
