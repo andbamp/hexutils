@@ -1,5 +1,11 @@
-#' Hexfind
-#'
+#' Matching a sequence of bytes
+#' 
+#' Locates a sequence of binary data inside a vector of binary data.
+#' @param x Vector of type `raw` where matches are sought.
+#' @param block A sequence of bytes to be matched in the given `raw` vector.
+#'   Coerced by `as.raw` to a `raw` vector if possible. Byte-sized `integer` and
+#'   `hexmode` vectors are valid.
+#' @return Vector with the positions of the matches.
 #' @export
 hexfind <- function(x, block) {
   index <- seq_along(x)

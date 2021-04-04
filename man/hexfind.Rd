@@ -2,10 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{hexfind}
 \alias{hexfind}
-\title{Hexfind}
+\title{Matching a sequence of bytes}
 \usage{
 hexfind(x, block)
 }
+\arguments{
+\item{x}{Vector of type `raw` where matches are sought.}
+
+\item{block}{A sequence of bytes to be matched in the given `raw` vector.
+Coerced by `as.raw` to a `raw` vector if possible. Byte-sized `integer` and
+`hexmode` vectors are valid.}
+}
+\value{
+Vector with the positions of the matches.
+}
 \description{
-Hexfind
+Locates a sequence of binary data inside a vector of binary data.
 }
