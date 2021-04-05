@@ -10,7 +10,6 @@ IntegerVector hexfind_cpp(RawVector x, RawVector block);
 RcppExport SEXP _hexutils_hexfind_cpp(SEXP xSEXP, SEXP blockSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RawVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< RawVector >::type block(blockSEXP);
     rcpp_result_gen = Rcpp::wrap(hexfind_cpp(x, block));

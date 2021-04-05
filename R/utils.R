@@ -1,3 +1,7 @@
+#' @useDynLib hexutils, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+NULL
+
 #' Matching a sequence of bytes
 #' 
 #' Locates a sequence of binary data inside a vector of binary data.
@@ -5,10 +9,14 @@
 #' @param block A sequence of bytes to be matched in the given `raw` vector.
 #'   Coerced by `as.raw` to a `raw` vector if possible. Byte-sized `integer` and
 #'   `hexmode` vectors are valid.
+#' @param cpp Setting to `TRUE` makes use of the C++ implementation.
 #' @return Vector with the positions of the matches.
 #' @export
-hexfind <- function(x, block) {
+hexfind <- function(x, block, cpp = TRUE) {
   block <- as.raw(block)
+  if(cpp) {
+    return(hexfind_cpp(x, block))
+  }
   if(length(block) > length(x)) {
     return(integer(0));
   }

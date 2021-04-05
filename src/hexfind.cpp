@@ -1,10 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' Hexfind cpp
-//'
-//' @export
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 IntegerVector hexfind_cpp(RawVector x, RawVector block) {
   int x_size = x.size();
   int block_size = block.size();
