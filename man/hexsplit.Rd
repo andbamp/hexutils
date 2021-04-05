@@ -4,7 +4,7 @@
 \alias{hexsplit}
 \title{Split the elements of a raw vector}
 \usage{
-hexsplit(x, split)
+hexsplit(x, split, cpp = TRUE)
 }
 \arguments{
 \item{x}{Vector of type `raw`.}
@@ -12,6 +12,8 @@ hexsplit(x, split)
 \item{split}{Sequence of bytes to use for splitting. Coerced by `as.raw` to a
 `raw` vector if possible. Byte-sized `integer` and `hexmode` vectors are
 valid.}
+
+\item{cpp}{Setting to `TRUE` makes use of the C++ implementation.}
 }
 \value{
 A list of the same length as the number of splits of the byte

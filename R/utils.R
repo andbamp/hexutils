@@ -36,11 +36,12 @@ hexfind <- function(x, block, cpp = TRUE) {
 #' @param split Sequence of bytes to use for splitting. Coerced by `as.raw` to a
 #'   `raw` vector if possible. Byte-sized `integer` and `hexmode` vectors are
 #'   valid.
+#' @param cpp Setting to `TRUE` makes use of the C++ implementation.
 #' @return A list of the same length as the number of splits of the byte
 #'   sequence.
 #' @export
-hexsplit <- function(x, split) {
-  split_ind <- hexfind(x, split)
+hexsplit <- function(x, split, cpp = TRUE) {
+  split_ind <- hexfind(x, split, cpp)
   end <- c(split_ind + length(split) - 1, length(x))
   end <- unique(end)
   start <- c(1, split_ind + length(split))[seq(end)]
