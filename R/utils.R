@@ -1,25 +1,52 @@
+#' @useDynLib hexutils, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+NULL
+
+#' Matching a sequence of bytes
+#' 
+#' Locates a sequence of binary data inside a vector of binary data.
+#' @param x Vector of type `raw` where matches are sought.
+#' @param block A sequence of bytes to be matched in the given `raw` vector.
+#'   Coerced by `as.raw` to a `raw` vector if possible. Byte-sized `integer` and
+#'   `hexmode` vectors are valid.
+#' @param cpp Setting to `TRUE` makes use of the C++ implementation.
+#' @return Vector with the positions of the matches.
+#' @export
+hexfind <- function(x, block, cpp = TRUE) {
+  block <- as.raw(block)
+  if(cpp) {
+    return(hexfind_cpp(x, block))
+  }
+  if(length(block) > length(x)) {
+    return(integer(0));
+  }
+  index <- seq(length(x) - length(block) + 1)
+  for(i in seq_along(block)) {
+    index <- index[x[index + i - 1L] == block[i]]
+  }
+  index
+}
+
 #' Split the elements of a raw vector
 #' 
 #' Split the elements of a raw vector into chunks according to the matches
 #' to byte sequence `split` within them.
 #' 
-#' @param block Vector of type `raw`.
-#' @param split Sequence of bytes represented as a character string, eg.
-#'   `"\\x50"` or `"\\x50\\x51"`.
+#' @param x Vector of type `raw`.
+#' @param split Sequence of bytes to use for splitting. Coerced by `as.raw` to a
+#'   `raw` vector if possible. Byte-sized `integer` and `hexmode` vectors are
+#'   valid.
+#' @param cpp Setting to `TRUE` makes use of the C++ implementation.
 #' @return A list of the same length as the number of splits of the byte
 #'   sequence.
 #' @export
-hexsplit <- function(block, split) {
-  split <- charToRaw(split)
-  end <- seq_along(block)
-  for(i in seq_along(split)) {
-    end <- end[block[end + i - 1L] == split[i]]
-  }
-  end <- c(end + length(split) - 1, length(block))
+hexsplit <- function(x, split, cpp = TRUE) {
+  split_ind <- hexfind(x, split, cpp)
+  end <- c(split_ind + length(split) - 1, length(x))
   end <- unique(end)
-  begin <- c(1, end[1:length(end) - 1] + 1)
-  lapply(seq(begin), function(i) {
-    block[begin[i]:end[i]]
+  start <- c(1, split_ind + length(split))[seq(end)]
+  lapply(seq(start), function(i) {
+    x[start[i]:end[i]]
   })
 }
 

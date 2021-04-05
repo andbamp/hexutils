@@ -4,13 +4,16 @@
 \alias{hexsplit}
 \title{Split the elements of a raw vector}
 \usage{
-hexsplit(block, split)
+hexsplit(x, split, cpp = TRUE)
 }
 \arguments{
-\item{block}{Vector of type `raw`.}
+\item{x}{Vector of type `raw`.}
 
-\item{split}{Sequence of bytes represented as a character string, eg.
-`"\\x50"` or `"\\x50\\x51"`.}
+\item{split}{Sequence of bytes to use for splitting. Coerced by `as.raw` to a
+`raw` vector if possible. Byte-sized `integer` and `hexmode` vectors are
+valid.}
+
+\item{cpp}{Setting to `TRUE` makes use of the C++ implementation.}
 }
 \value{
 A list of the same length as the number of splits of the byte
