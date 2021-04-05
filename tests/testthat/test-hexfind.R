@@ -17,3 +17,25 @@ test_that("indexes of binary sequences are located correctly", {
   exp_3 <- 98
   expect_equal(test_3, exp_3)
 })
+
+test_that("no match returns integer(0)", {
+  path <- "data/test.bin"
+  file <- read_hex_block(path, size = file.size(path), 0)
+  
+  block <- charToRaw("@")
+  exp <- integer(0)
+  expect_equal(hexfind(file, block), exp)
+})
+
+test_that("block smaller than x returns integer(0)", {
+  x <- as.raw(rep(0, 100))
+  block <- as.raw(rep(0, 10))
+  exp <- integer(0)
+  expect_equal(hexfind(block, x), exp)
+})
+
+test_that("indexes of block of repeated bytes is located in x of repeated bytes", {
+  x <- as.raw(rep(0, 100))
+  block <- as.raw(rep(0, 10))
+  expect_equal(length(hexfind(x, block)), 91)
+})

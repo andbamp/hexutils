@@ -9,7 +9,10 @@
 #' @export
 hexfind <- function(x, block) {
   block <- as.raw(block)
-  index <- seq_along(x)
+  if(length(block) > length(x)) {
+    return(integer(0));
+  }
+  index <- seq(length(x) - length(block) + 1)
   for(i in seq_along(block)) {
     index <- index[x[index + i - 1L] == block[i]]
   }
